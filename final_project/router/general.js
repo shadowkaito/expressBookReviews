@@ -1,4 +1,5 @@
 const express = require('express');
+const axios = require('axios');
 let books = require("./booksdb.js");
 let isValid = require("./auth_users.js").isValid;
 let users = require("./auth_users.js").users;
@@ -108,5 +109,48 @@ public_users.get('/review/:isbn', function (req, res) {
     return res.send(books[isbnNumber].reviews);
     // return res.status(300).json({ message: "Yet to be implemented" });
 });
+
+//PART WITH AXIOS
+public_users.get('/axios/books', function (req, res) {
+    axios.get('http://localhost:5000/')
+        .then(response => {
+            res.send(response.data);
+        })
+        .catch(error => {
+            console.error("Error no book found", error);
+            res.status(500).send("Error no book found");
+        });
+});
+public_users.get('/axios/isbn/:isbn', function (req, res) {
+    axios.get('http://localhost:5000/isbn/:isbn')
+        .then(response => {
+            res.send(response.data);
+        })
+        .catch(error => {
+            console.error("Error no book founded with this isbn", error);
+            res.status(500).send("Error no book founded with this isbn");
+        });
+});
+public_users.get('/axios/author/:author', function (req, res) {
+    axios.get('http://localhost:5000/author/:author')
+        .then(response => {
+            res.send(response.data);
+        })
+        .catch(error => {
+            console.error("Error no book founded with this author :", error);
+            res.status(500).send("Error no book founded with this author");
+        });
+});
+public_users.get('/axios/title/:title', function (req, res) {
+    axios.get('http://localhost:5000/title/:title')
+        .then(response => {
+            res.send(response.data);
+        })
+        .catch(error => {
+            console.error("Error no book founded with this title : ", error);
+            res.status(500).send("Error no book founded with this title : ");
+        });
+});
+
 
 module.exports.general = public_users;
