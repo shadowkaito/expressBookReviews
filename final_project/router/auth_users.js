@@ -7,7 +7,7 @@ let users = [];
 
 const isValid = (username) => { //returns boolean
     //write code to check is the username is valid
-    
+
 }
 
 const authenticatedUser = (username, password) => { //returns boolean
@@ -48,7 +48,7 @@ regd_users.post("/login", (req, res) => {
                 return res.status(500).json({ error: "Erreur serveur" });
             }
             return res.status(200).send("User successfully logged in");
-        });   
+        });
     } else {
         return res.status(208).json({ message: "Invalid Login. Check username and password" });
     }
@@ -70,11 +70,19 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
         reviews[username] = review;
         return res.status(200).json({ message: "Review Updated" });
     } else {
-        reviews.push({username,review });
+        reviews.push({ username, review });
         return res.status(200).json({ message: "Review added" });
     }
 
     // return res.status(300).json({ message: "Yet to be implemented" });
+});
+
+regd_users.delete("/auth/review/:isbn", (req, res) => {
+    let isbn = parseInt(req.params.isbn);
+    let username = req.user;
+    
+    delete  books[isbn].reviews[username];
+    return res.status(200).json({ message: "Review Deleted" });
 });
 
 module.exports.authenticated = regd_users;
