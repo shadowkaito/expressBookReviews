@@ -9,6 +9,7 @@ public_users.post("/register", (req, res) => {
     //Write your code here
     const username = req.body.username;
     const password = req.body.password;
+    console.log( req.body);
     // Check if both username and password are provided
     if (username && password) {
         // Check if the user does not already exist
@@ -24,6 +25,20 @@ public_users.post("/register", (req, res) => {
     return res.status(404).json({message: "Unable to register user."});
     // return res.status(300).json({ message: "Yet to be implemented" });
 });
+
+// Check if a user with the given username already exists
+const doesExist = (username) => {
+    // Filter the users array for any user with the same username
+    let userswithsamename = users.filter((user) => {
+        return user.username === username;
+    });
+    // Return true if any user with the same username is found, otherwise false
+    if (userswithsamename.length > 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
 
 // Get the book list available in the shop
 public_users.get('/', function (req, res) {
